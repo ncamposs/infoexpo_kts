@@ -1,0 +1,66 @@
+
+
+---
+// src/components/ImageCarousel.astro
+---
+<div class="relative overflow-hidden">
+  <div class="carousel-wrapper flex transition-transform duration-1000 ease-in-out" style="width: 100%; transform: translateX(0);">
+    {[
+      { image: '/images/photo1.jpg', text: 'Conciertos' },
+      { image: '/images/photo2.jpg', text: 'Expos' },
+      { image: '/images/photo3.png', text: 'Convenciones' },
+      { image: '/images/photo4.jpg', text: 'Congresos' },
+      { image: '/images/photo5.jpg', text: 'Eventos Deportivos' },
+      { image: '/images/photo6.jpg', text: 'infoexpo TKs' }
+    ].map(({ image, text }, index) => (
+      <div key={index} class="carousel-item relative w-full flex-shrink-0" style="width: 100%;">
+        <div
+          class="h-96 bg-cover bg-center"
+          style={`background-image: url(${image});`}
+        >
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h2 class="text-white text-2xl md:text-4xl font-bold text-center">
+              {text}
+            </h2>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <!-- Botones de Navegación -->
+  <button
+    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+    id="prevBtn"
+  >
+    &larr;
+  </button>
+  <button
+    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+    id="nextBtn"
+  >
+    &rarr;
+  </button>
+</div>
+
+<script>
+  let currentIndex = 0;
+  const totalSlides = 6;
+
+  const wrapper = document.querySelector('.carousel-wrapper');
+  const prevBtn = document.querySelector('#prevBtn');
+  const nextBtn = document.querySelector('#nextBtn');
+
+  const updateCarousel = () => {
+    wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+  };
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateCarousel();
+  });
+</script>
